@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ratings %}
+
+
+{% block page-title %}{% endblock %}
+
+
+{% block head-end %}
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'shop/css/category_page.css' %}" rel="stylesheet" />
+    <!-- Star rating-->
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">{{ tag.name }}</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Sample tag page</p>
+                </div>
+            </div>
+        </header>
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+                    {% for product in page_obj %}
+                        {% if product.discount %}
+                        <div class="col mb-5">
+                            <div class="card h-100">
+                                <!-- Sale badge-->
+                                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                                <!-- Product image-->
+                                <img class="card-img-top" src="{{ product.thumbnail.url }}" alt="..." />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                            <h5 class="fw-bolder">{{ product.name }}</h5>
+                                        <!-- Product reviews-->
+                                        <div>
+                                            {% ratings product icon_height=13 icon_width=13 read_only=True %}
+                                        </div>
+                                        <!-- Product price-->
+                                        <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
+                                        ${{ product.discounted_price }}
+                                    </div>
+                                </div>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" href="{% url 'product:product_detail' product_slug=product.slug %}">
+                                            View Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col mb-5">
+                            <div class="card h-100">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="{{ product.thumbnail.url }}" alt="..." />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                            <h5 class="fw-bolder">{{ product.name }}</h5>
+                                        <!-- Product reviews-->
+                                        <div>
+                                            {% ratings product icon_height=13 icon_width=13 read_only=True %}
+                                        </div>
+                                        <!-- Product price-->
+                                        ${{ product.price }}
+                                    </div>
+                                </div>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" href="{% url 'product:product_detail' product_slug=product.slug %}">
+                                            View Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- Pagination-->
+        <section class="mb-5">
+            <div class="container">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                            <a class="page-link" href="
+                                {% if page_obj.has_previous %}
+                                    {% url 'product:tag_page' request.resolver_match.captured_kwargs.tag_slug page_obj.previous_page_number %}
+                                {% endif %}">
+                                Previous
+                            </a>
+                        </li>
+                        {% for page_number in page_obj.paginator.get_elided_page_range %}
+                            {% if page_number == page_obj.paginator.ELLIPSIS %}
+                                {{ page_number }}
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link {% if page_number == page_obj.number %}active{% endif %}"
+                                       href="{% url 'product:tag_page' request.resolver_match.captured_kwargs.tag_slug page_number %}">
+                                        {{ page_number }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                            <a class="page-link" href="
+                                {% if page_obj.has_next %}
+                                    {% url 'product:tag_page' request.resolver_match.captured_kwargs.tag_slug page_obj.next_page_number %}
+                                {% endif %}">
+                                Next
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+{% endblock %}
+
+
+{% block body-end %}
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+{% endblock %}

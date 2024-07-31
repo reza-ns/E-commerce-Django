@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load ratings %}
+
+
+{% block page-title %}product detail{% endblock %}
+
+{% block head-end %}
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'shop/css/product_detail.css' %}" rel="stylesheet" />
+    <!-- Star rating-->
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+{% endblock %}
+
+{% block content %}
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                        <!-- Breadcrumb section-->
+                        <div class="container">
+                          <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                              <li class="breadcrumb-item">
+                                <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'shop:home' %}">home</a>
+                              </li>
+                              <li class="breadcrumb-item">
+                                <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">product</a>
+                              </li>
+                              <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+                            </ol>
+                          </nav>
+                        </div>
+
+                    <div class="col-md-6">
+                        <img class="card-img-top mb-5 mb-md-0" src="{{ product.thumbnail.url }}" alt="..." />
+                        <div class="row">
+                            {% for img in product.images.all %}
+                                <div class="col col-3">
+                                    <a href="{{ img.image.url }}" data-toggle="lightbox">
+                                    <img src="{{ img.image.url }}" alt="..." class="img-thumbnail"/>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
+                        <div class="fs-5 mb-2">
+                            {% if product.discount %}
+                                <span class="text-decoration-line-through text-secondary">${{ product.price }}</span>
+                                <span class="fw-bold fs-3">${{ product.discounted_price }}</span>
+                            {% else %}
+                                <span class="fw-bold fs-3">${{ product.price }}</span>
+                            {% endif %}
+                        </div>
+                        <div>{% ratings product %}</div>
+                        <p class="lead pt-3">{{ product.description|truncatewords:30 }}</p>
+{#                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />#}
+{#                        <form method="post" action="{% url 'cart:cart_add' product.id %}" class="col-3">#}
+{#                            {% csrf_token %}#}
+{#                            {{ add_to_cart_form|crispy }}#}
+{#                            <button type="submit" class="btn btn-dark">Add to cart</button>#}
+{#                        </form>#}
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Attributes section-->
+        <section class="py-5 bg-light">
+            <div class="container col-md-12">
+                <h2 class="mb-4">Product specs</h2>
+                <table class="table">
+                      <tbody>
+                        {% for av in attributes_values %}
+                            <tr>
+                              <th scope="row">{{ av.attribute }}</th>
+                              <td>{{ av.value }}</td>
+                            </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- Description section-->
+        <section class="py-5">
+            <div class="container col-md-12">
+                <h2 class="mb-4">Product description</h2>
+                <p class="fw-normal lh-lg">{{ product.description }}</p>
+            </div>
+        </section>
+        <!-- Comment section-->
+        <section>
+          <div class="container my-5 py-5">
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-12">
+                <h2 class="mb-4">Comments</h2>
+                <div class="card border-0">
+                  {% for comment in product.comments.all %}
+                      <div class="card-body">
+                        <div class="d-flex flex-start align-items-center">
+                          <div>
+                            <h6 class="fw-bold text-primary mb-1">{{ comment.user.username }}</h6>
+                            <p class="text-muted small mb-0">
+                              {{ comment.created_at|date }}
+                            </p>
+                          </div>
+                        </div>
+                        <div class="mt-3 mb-4 pb-2">
+                            <span class="fw-bold">{{ comment.title }}</span>
+                            <p class="pt-2">
+                              {{ comment.content }}
+                            </p>
+                        </div>
+                        <div class="small d-flex justify-content-start">
+                          <a href="#!" class="d-flex align-items-center me-3 text-decoration-none">
+                            <i class="bi bi-star me-2"></i>
+                            <p class="mb-0">Like</p>
+                          </a>
+                          <a href="#!" class="d-flex align-items-center me-3 text-decoration-none">
+                              <i class="bi bi-chat-dots me-2"></i>
+                            <p class="mb-0">Comment</p>
+                          </a>
+                          <a href="#!" class="d-flex align-items-center me-3 text-decoration-none">
+                            <i class="bi bi-share me-2"></i>
+                            <p class="mb-0">Share</p>
+                          </a>
+                        </div>
+                      </div>
+                  {% endfor %}
+                  {% if user.is_authenticated %}
+                      <div class="col-md-8 py-3 border-0">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ comment_form|crispy }}
+                            <button type="submit" class="btn btn-primary btn-sm">Post Comment</button>
+                        </form>
+                      </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Related items section-->
+        <section class="py-5 bg-light">
+            <div class="container px-4 px-lg-5 mt-5">
+                <h2 class="mb-4">Related products</h2>
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    {% for product in related_products %}
+                        {% if product.discount %}
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <!-- Sale badge-->
+                                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                                    <!-- Product image-->
+                                    <img class="card-img-top" src="{{ product.thumbnail.url }}" alt="..." />
+                                    <!-- Product details-->
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <!-- Product name-->
+                                            <a href="{% url 'shop:product_page' product_slug=product.slug %}" class="text-decoration-none text-dark">
+                                                <h5 class="fw-bolder">{{ product.name }}</h5>
+                                            </a>
+                                            <!-- Product reviews-->
+                                                <div>{% ratings product icon_height=13 icon_width=13 read_only=True %}</div>
+                                            <!-- Product price-->
+                                            <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
+                                            ${{ product.discounted_price }}
+                                        </div>
+                                    </div>
+                                    <!-- Product actions-->
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <!-- Product image-->
+                                    <img class="card-img-top" src="{{ product.thumbnail.url }}" alt="..." />
+                                    <!-- Product details-->
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <!-- Product name-->
+                                            <a href="{% url 'shop:product_page' product_slug=product.slug %}" class="text-decoration-none text-dark">
+                                                <h5 class="fw-bolder">{{ product.name }}</h5>
+                                            </a>
+                                            <!-- Product reviews-->
+                                                <div>{% ratings product icon_height=13 icon_width=13 read_only=True %}</div>
+                                            <!-- Product price-->
+                                            ${{ product.price }}
+                                        </div>
+                                    </div>
+                                    <!-- Product actions-->
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+{% endblock %}
+
+{% block body-end %}
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'shop/js/lightbox.bundle.min.js' %}"></script>
+{% endblock %}
+
