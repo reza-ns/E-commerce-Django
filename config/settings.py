@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'apps.accounts.apps.AccountsConfig',
     'apps.shop.apps.ShopConfig',
+    'apps.cart.apps.CartConfig',
 
     'crispy_forms',
     'crispy_bootstrap5',

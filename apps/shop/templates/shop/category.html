@@ -52,7 +52,7 @@
                                 </div>
                                 <!-- Product actions-->
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product:product_detail' product_slug=product.slug %}">
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'shop:product_page' product_slug=product.slug %}">
                                         View Detail
                                     </a>
                                     </div>
@@ -80,7 +80,7 @@
                                 <!-- Product actions-->
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="{% url 'product:product_detail' product_slug=product.slug %}">
+                                        <a class="btn btn-outline-dark mt-auto" href="{% url 'shop:product_page' product_slug=product.slug %}">
                                         View Detail
                                         </a>
                                     </div>
@@ -100,7 +100,7 @@
                         <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
                             <a class="page-link" href="
                                 {% if page_obj.has_previous %}
-                                    {% url 'product:category_page' category.slug page_obj.previous_page_number %}
+                                    {% url 'shop:category_page' category.slug page_obj.previous_page_number %}
                                 {% endif %}">
                                 Previous
                             </a>
@@ -111,7 +111,7 @@
                             {% else %}
                                 <li class="page-item">
                                     <a class="page-link {% if page_number == page_obj.number %}active{% endif %}"
-                                       href="{% url 'product:category_page' category.slug page_number %}">
+                                       href="{% url 'shop:category_page' category.slug page_number %}">
                                         {{ page_number }}
                                     </a>
                                 </li>
@@ -120,7 +120,7 @@
                         <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
                             <a class="page-link" href="
                                 {% if page_obj.has_next %}
-                                    {% url 'product:category_page' category.slug page_obj.next_page_number %}
+                                    {% url 'shop:category_page' category.slug page_obj.next_page_number %}
                                 {% endif %}">
                                 Next
                             </a>

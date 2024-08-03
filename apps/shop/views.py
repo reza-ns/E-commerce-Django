@@ -63,7 +63,7 @@ class CategoryPageView(View):
         return render(request, 'shop/category.html', context=context)
 
 
-class TagPageView(View):
+class TagPageView(ListView):
     template_name = 'shop/tag.html'
     context_object_name = 'products'
     paginate_by = 8
