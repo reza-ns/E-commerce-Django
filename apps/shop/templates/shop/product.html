@@ -51,20 +51,18 @@
                         <div class="fs-5 mb-2">
                             {% if product.discount %}
                                 <span class="text-decoration-line-through text-secondary">${{ product.price }}</span>
-                                <span class="fw-bold fs-3">${{ product.discounted_price }}</span>
+                                <span class="fw-bold fs-3">${{ product.get_price }}</span>
                             {% else %}
                                 <span class="fw-bold fs-3">${{ product.price }}</span>
                             {% endif %}
                         </div>
                         <div>{% ratings product %}</div>
                         <p class="lead pt-3">{{ product.description|truncatewords:30 }}</p>
-{#                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />#}
-{#                        <form method="post" action="{% url 'cart:cart_add' product.id %}" class="col-3">#}
-{#                            {% csrf_token %}#}
-{#                            {{ add_to_cart_form|crispy }}#}
-{#                            <button type="submit" class="btn btn-dark">Add to cart</button>#}
-{#                        </form>#}
-
+                        <form method="post" action="{% url 'cart:cart_add' product.id %}" class="col-3">
+                            {% csrf_token %}
+                            {{ add_to_cart_form|crispy }}
+                            <button type="submit" class="btn btn-dark">Add to cart</button>
+                        </form>
                     </div>
                 </div>
             </div>

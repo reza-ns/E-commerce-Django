@@ -54,8 +54,11 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    def discounted_price(self):
-        return self.price - int((self.price * self.discount) / 100)
+    def get_price(self):
+        if self.discount:
+            return self.price - int((self.price * self.discount) / 100)
+        else:
+            return self.price
 
 
 class ProductImage(models.Model):

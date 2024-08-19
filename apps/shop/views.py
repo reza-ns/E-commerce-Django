@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from . import models
 from .forms import CommentForm
+from apps.cart.forms import CartAddForm
 
 
 class HomeView(View):
@@ -22,7 +23,7 @@ class HomeView(View):
 class ProductPageView(View):
     def get(self, request, product_slug):
         comment_form = CommentForm()
-        # add_to_cart_form = AddToCartForm()
+        add_to_cart_form = CartAddForm()
         product = get_object_or_404(models.Product, slug=product_slug, is_active=True)
         products_similar_tags = models.Product.objects.filter(tag__in=product.tag.all()).exclude(id=product.id)
         products_similar_category = models.Product.objects.filter(category=product.category).exclude(id=product.id)
@@ -33,7 +34,7 @@ class ProductPageView(View):
             'related_products': related_products,
             'attributes_values': attributes_values,
             'comment_form': comment_form,
-            # 'add_to_cart_form': add_to_cart_form
+            'add_to_cart_form': add_to_cart_form
         }
         return render(request, 'shop/product.html', context)
 
