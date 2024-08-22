@@ -39,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Local
     'apps.accounts.apps.AccountsConfig',
     'apps.shop.apps.ShopConfig',
     'apps.cart.apps.CartConfig',
+    'apps.orders.apps.OrdersConfig',
 
+    # Third party
     'crispy_forms',
     'crispy_bootstrap5',
     'star_ratings',
