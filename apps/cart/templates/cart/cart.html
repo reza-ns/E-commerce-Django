@@ -5,7 +5,7 @@
 {% block page-title %}Cart{% endblock %}
 
 {% block head-end %}
-    <link href="{% static 'cart/cart.css' %}" rel="stylesheet">
+{#    <link href="{% static 'cart/css/cart.css' %}" rel="stylesheet">#}
 {% endblock %}
 
 {% block content %}
@@ -66,9 +66,9 @@
                                         <h5>€ {{ total_price }}</h5>
                                       </div>
 
-                                      <button  type="submit" class="btn btn-dark btn-block btn-lg" href="">
-                                          Checkout
-                                      </button>
+                                      <a class="btn btn-dark btn-block btn-lg" href="{% url 'orders:shipping' %}">
+                                          Complete order
+                                      </a>
                                     </div>
                                   </div>
                                 </div>

@@ -18,7 +18,7 @@ class Invoice(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    shipping = models.ForeignKey('Shipping', on_delete=models.PROTECT, related_name='invoices')
+    shipping = models.ForeignKey('Shipping', on_delete=models.PROTECT,null=True, related_name='invoices')
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='invoices')
 
 
@@ -54,6 +54,9 @@ class Payment(models.Model):
 
 
 class Shipping(models.Model):
-    address = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
+    address = models.CharField(max_length=255)
+    country = models.CharField(max_length=50)
+    state = models.CharField(max_length=100)
+    zipcode = models.CharField(max_length=15)
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='shipping_addresses')

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block page-title %}Checkout{% endblock %}
+
+{% block head-end %}
+    <!-- Custom styles for this template -->
+    <link href="{% static 'orders/css/checkout.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <body class="bg-body-tertiary">
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+              <h2>Checkout</h2>
+                <hr>
+            </div>
+            <div class="row g-5">
+              <div class="col-md-5 col-lg-12 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="text-primary">Your cart</span>
+                  <span class="badge bg-primary rounded-pill">{{ invoice.invoice_items.count }}</span>
+                </h4>
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Product</th>
+                          <th scope="col">Count</th>
+                          <th scope="col">Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in invoice.invoice_items.all %}
+                        <tr>
+                          <td>{{ item.name }}</td>
+                          <td>{{ item.count }}</td>
+                          <td>{{ item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                  </table>
+                  <p class="fs-5 fw-bold">Total(USD): {{ invoice.total_price }}</p>
+                  <a class="w-100 btn btn-primary btn-lg my-5" href="{% url 'orders:shipping' %}">
+                      Pay
+                  </a>
+              </div>
+            </div>
+        </main>
+</div>
+{% endblock %}
+

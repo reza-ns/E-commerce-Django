@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block page-title %}Shipping{% endblock %}
+
+{% block head-end %}
+    <!-- Custom styles for this template -->
+    <link href="{% static 'orders/css/shipping.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <body class="bg-body-tertiary">
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+              <h2>Shipping</h2>
+                <hr>
+            </div>
+            <div class="row g-5">
+              <div class="col-md-5 col-lg-5 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="text-primary">Add new address</span>
+                </h4>
+                <form method="post">
+                      {% csrf_token %}
+                      {{ shipping_form|crispy }}
+                      <input type="submit" class="w-100 btn btn-outline-dark btn-lg my-3" value="Add address">
+                </form>
+              </div>
+              <div class="col-md-7 col-lg-7">
+                <h4 class="mb-3">Choose address</h4>
+                  <form method="post" action="{% url 'orders:checkout' %}">
+                        {% csrf_token %}
+                      <div class="d-flex flex-column flex-md-row">
+                          <div class="list-group list-group-radio d-grid gap-2 border-0">
+                            {% for shipping in shippings %}
+                              <div class="position-relative">
+                                <input class="form-check-input position-absolute top-50 end-0 me-3 fs-5" type="radio" name="shipping_id" id="{{ shipping.id }}" value="{{ shipping.id }}" checked>
+                                <label class="list-group-item py-3 pe-5" for="{{ shipping.id }}">
+                                <strong class="fw-semibold">{{ shipping.zipcode }}</strong>
+                                <span class="d-block small opacity-75">{{ shipping.country }}, {{ shipping.state }}</span>
+                                <span class="d-block small opacity-75">{{ shipping.address }}</span>
+                                <span class="d-block small opacity-75">{{ shipping.phone }}</span>
+                                </label>
+                              </div>
+                            {% endfor %}
+                            <input type="submit" class="w-100 btn btn-primary btn-lg my-4" value="Go to checkout">
+                          </div>
+                      </div>
+                  </form>
+              </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
