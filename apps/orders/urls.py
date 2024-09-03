@@ -5,5 +5,7 @@ app_name = 'orders'
 
 urlpatterns = [
     path('shipping', views.ShippingView.as_view(), name='shipping'),
-    path('payment', views.CheckoutView.as_view(), name='checkout'),
+    path('invoice', views.CheckoutView.as_view(), name='invoice'),
+    path('payment', views.PaymentView.as_view(), name='payment'),
+    path('verify', views.PaymentVerify.as_view(), name='verify'),
 ]

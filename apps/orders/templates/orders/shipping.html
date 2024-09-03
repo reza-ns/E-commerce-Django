@@ -31,7 +31,7 @@
               </div>
               <div class="col-md-7 col-lg-7">
                 <h4 class="mb-3">Choose address</h4>
-                  <form method="post" action="{% url 'orders:checkout' %}">
+                  <form method="post" action="{% url 'orders:invoice' %}">
                         {% csrf_token %}
                       <div class="d-flex flex-column flex-md-row">
                           <div class="list-group list-group-radio d-grid gap-2 border-0">

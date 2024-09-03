@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page-title %}Payment successful{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                <h2>Your payment is successful</h2>
+            </div>
+            <div>
+                <h3>Payment amount: {{ payment.amount }}</h3>
+                <h3>Payment refrence ID: {{ payment.refid }}</h3>
+            </div>
+        </main>
+    </div>
+{% endblock %}

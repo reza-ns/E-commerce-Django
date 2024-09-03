@@ -154,3 +154,8 @@ STAR_RATINGS_STAR_HEIGHT = 20
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 # SESSION_COOKIE_SECURE = True
+
+
+# Payment
+MID =
+psp_url = 'https://www.zarinpal.com/pg/services/WebGate/wsdl'
