@@ -35,7 +35,7 @@ class CartView(View):
     action = None
 
     def get(self, request):
-        cart = request.session.get('cart', None)
+        cart = request.session.get('cart')
         total = _total_price(cart)
         context = {
             'cart': cart,
@@ -44,7 +44,7 @@ class CartView(View):
         return render(request, 'cart/cart.html', context)
 
     def post(self, request, product_id):
-        cart = request.session.get('cart', None)
+        cart = request.session.get('cart')
 
         if self.action == 'add':
             form = CartAddForm(request.POST)

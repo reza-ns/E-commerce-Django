@@ -47,7 +47,7 @@ class CheckoutView(LoginRequiredMixin, View):
         return render(request, 'orders/checkout.html', {'invoice': invoice})
 
     def post(self, request):
-        cart = request.session.get('cart', None)
+        cart = request.session.get('cart')
         if not cart:
             invoice = models.Invoice.objects.filter(user=request.user).last()
             if invoice.exists():
