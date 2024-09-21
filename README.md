@@ -1,4 +1,4 @@
-# Simple Django nline shop
+# Simple Django online shop
 
 <p align='left'>
   <img src="https://img.shields.io/badge/Python-239120?logo=python&logoColor=white" />
