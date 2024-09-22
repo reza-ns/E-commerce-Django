@@ -8,6 +8,7 @@ urlpatterns = [
     path('auth/', include('allauth.urls')),
     path('cart/', include('apps.cart.urls', namespace='cart')),
     path('checkout/', include('apps.orders.urls', namespace='orders')),
+    path('dashboard/', include('apps.accounts.urls', namespace='accounts')),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ]
 

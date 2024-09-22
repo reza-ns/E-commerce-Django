@@ -1,0 +1,28 @@
+{% extends 'accounts/dashboard_base.html' %}
+
+
+
+{% block dashboard_page_name %}Orders{% endblock %}
+
+
+{% block dashboard_page_content %}
+    <div class="container">
+        {% for order in orders %}
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'accounts:invoice' order.invoice.number %}">
+                        <h6 class="card-title">{{ order.created_at|date:"d F Y" }}</h6>
+                    </a>
+                    <p class="card-text">amount: {{ order.amount }} , Refrence ID: {{ order.refid }}</p>
+                </div>
+                <div class="card-body">
+                    {% for item in order.invoice.invoice_items.all %}
+                        <div>
+                            <img src="{{ item.product.thumbnail.url }}" alt="" class="rounded float-start w-25 px-3">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

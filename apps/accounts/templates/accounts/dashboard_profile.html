@@ -1,0 +1,10 @@
+{% extends 'accounts/dashboard_base.html' %}
+{% load account %}
+
+
+{% block dashboard_page_name %}Profile{% endblock %}
+
+
+{% block dashboard_page_content %}
+    {% user_display user %}
+{% endblock %}

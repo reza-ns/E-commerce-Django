@@ -1,0 +1,38 @@
+{% extends 'accounts/dashboard_base.html' %}
+
+
+
+{% block dashboard_page_name %}Invoice{% endblock %}
+
+
+{% block dashboard_page_content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                {{ invoice.created_at|date:"d F Y" }}
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">invoice number: {{ invoice.number }}</h6>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    {% for item in invoice.invoice_items.all %}
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img src="{{ item.product.thumbnail.url }}" alt="">
+                                <div class="card-body">
+                                    <a href="{% url 'shop:product_page' item.product.slug %}" class="text-decoration-none fw-bold">
+                                        <p class="card-text">{{ item.product.name }}</p>
+                                    </a>
+                                    <p class="card-text">price: {{ item.product.price }}</p>
+                                    <p class="card-text">count: {{ item.count }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card-footer text-body-secondary">
+                Total price: {{ invoice.total_price }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
